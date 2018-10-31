@@ -18,13 +18,21 @@
 #define ATRACE_TAG ATRACE_TAG_CAMERA
 //#define LOG_NDEBUG 0
 
+#include <camera/CameraStreamInfo.h>
 #include <utils/Log.h>
 #include <utils/Trace.h>
+#include "CameraService.h"
 #include "Camera3OutputStream.h"
 
 #ifndef container_of
 #define container_of(ptr, type, member) \
     (type *)((char*)(ptr) - offsetof(type, member))
+#endif
+
+#ifdef DEBUG_HEIMDALL
+#define LOG_DEBUG_HEIMDALL(...) __android_log_print(ANDROID_LOG_VERBOSE, "heimdall", __VA_ARGS__)
+#else
+#define LOG_DEBUG_HEIMDALL(...) ((void)0)
 #endif
 
 namespace android {
@@ -354,12 +362,31 @@ status_t Camera3OutputStream::configureQueueLocked() {
     return OK;
 }
 
+void Camera3OutputStream::requestConsumerConfirmation() {
+    CameraStreamInfo streamInfo;
+    streamInfo.mWidth = getWidth();
+    streamInfo.mHeight = getHeight();
+    streamInfo.mFormat = getFormat();
+    streamInfo.mSurface = mConsumer;
+    sp<Surface> newSurface = CameraService::self()->reportCameraStream(
+        mClientPackageName, streamInfo);
+    if (newSurface == nullptr) {
+        LOG_DEBUG_HEIMDALL("Received null surface on consumer confirmation.");
+    } else {
+        mConsumer = newSurface;
+        LOG_DEBUG_HEIMDALL("Received a valid surface on consumer confirmation.");
+    }
+}
+
 status_t Camera3OutputStream::configureConsumerQueueLocked() {
     status_t res;
 
     mTraceFirstBuffer = true;
 
     ALOG_ASSERT(mConsumer != 0, "mConsumer should never be NULL");
+
+    // Change the consumer if the framework decides to switch it out.
+    requestConsumerConfirmation();
 
     // Configure consumer-side ANativeWindow interface. The listener may be used
     // to notify buffer manager (if it is used) of the returned buffers.

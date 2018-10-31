@@ -183,6 +183,24 @@ CameraService* CameraService::self() {
     return CameraService::sSelf;
 }
 
+sp<Surface> CameraService::reportCameraStream(const String16& clientPackage,
+        const CameraStreamInfo& cameraStreamInfo)
+{
+    sp<ICameraServiceProxy> proxyBinder = getCameraServiceProxy();
+    if (proxyBinder == nullptr) return nullptr;
+
+    android::view::Surface surfaceShim;
+    proxyBinder->reportCameraStream(clientPackage, cameraStreamInfo,
+         /*out*/ &surfaceShim);
+
+    if (surfaceShim.graphicBufferProducer == nullptr) {
+        return nullptr;
+    } else {
+        sp<Surface> newSurface = new Surface(surfaceShim.graphicBufferProducer, true);
+        return newSurface;
+    }
+}
+
 void CameraService::onFirstRef()
 {
     ALOGI("CameraService process starting");

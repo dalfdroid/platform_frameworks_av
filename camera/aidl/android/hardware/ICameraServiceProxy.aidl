@@ -16,6 +16,9 @@
 
 package android.hardware;
 
+import android.view.Surface;
+import android.hardware.CameraStreamInfo;
+
 /**
  * Binder interface for the camera service proxy running in system_server.
  *
@@ -50,4 +53,12 @@ interface ICameraServiceProxy
      */
     oneway void notifyCameraState(String cameraId, int facing, int newCameraState,
             String clientName);
+
+    /**
+     * Report a new camera stream and possibly get a new rendering surface.
+     * @param packageName The package for which this stream is being created.
+     * @param CameraStreamInfo Information about the camera stream being created.
+     * @return A new rendering surface target, if one exists, or null otherwise.
+     */
+    Surface reportCameraStream(String packageName, in CameraStreamInfo cameraStreamInfo);
 }

@@ -40,6 +40,7 @@ cc_library_shared {
         "Camera.cpp",
         "CameraMetadata.cpp",
         "CameraParameters.cpp",
+        "CameraStreamInfo.cpp",
         "CaptureResult.cpp",
         "CameraParameters2.cpp",
         "ICamera.cpp",

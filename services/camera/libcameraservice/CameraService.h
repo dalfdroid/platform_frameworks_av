@@ -34,6 +34,7 @@
 #include <camera/VendorTagDescriptor.h>
 #include <camera/CaptureResult.h>
 #include <camera/CameraParameters.h>
+#include <camera/CameraStreamInfo.h>
 
 #include "CameraFlashlight.h"
 
@@ -94,6 +95,11 @@ public:
 
     // Returns the singleton interface
     static CameraService* self();
+
+    // Report the camera stream interface to the framework and return a new
+    // rendering target surface (if any).
+    virtual sp<Surface> reportCameraStream(const String16& clientPackage,
+            const CameraStreamInfo& cameraStreamInfo);
 
     /////////////////////////////////////////////////////////////////////
     // HAL Callbacks - implements CameraProviderManager::StatusListener

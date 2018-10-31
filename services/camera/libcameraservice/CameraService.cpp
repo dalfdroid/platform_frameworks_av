@@ -165,6 +165,7 @@ static void torch_mode_status_change(
 
 // ----------------------------------------------------------------------------
 
+CameraService* CameraService::sSelf;
 CameraService::CameraService() :
         mEventLog(DEFAULT_EVENT_LOG_LENGTH),
         mNumberOfCameras(0), mNumberOfNormalCameras(0),
@@ -175,6 +176,11 @@ CameraService::CameraService() :
     this->torch_mode_status_change = android::torch_mode_status_change;
 
     mServiceLockWrapper = std::make_shared<WaitableMutexWrapper>(&mServiceLock);
+    sSelf = this;
+}
+
+CameraService* CameraService::self() {
+    return CameraService::sSelf;
 }
 
 void CameraService::onFirstRef()

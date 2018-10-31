@@ -92,6 +92,9 @@ public:
                         CameraService();
     virtual             ~CameraService();
 
+    // Returns the singleton interface
+    static CameraService* self();
+
     /////////////////////////////////////////////////////////////////////
     // HAL Callbacks - implements CameraProviderManager::StatusListener
 
@@ -414,6 +417,8 @@ public:
     }; // class CameraClientManager
 
 private:
+
+    static CameraService*        sSelf;
 
     typedef hardware::camera::common::V1_0::CameraDeviceStatus CameraDeviceStatus;
 

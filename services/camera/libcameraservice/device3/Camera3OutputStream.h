@@ -79,7 +79,7 @@ class Camera3OutputStream :
      * A valid stream set id needs to be set to support buffer sharing between multiple
      * streams.
      */
-    Camera3OutputStream(int id, sp<Surface> consumer,
+    Camera3OutputStream(int id, const String16& clientPackageName, sp<Surface> consumer,
             uint32_t width, uint32_t height, int format,
             android_dataspace dataSpace, camera3_stream_rotation_t rotation,
             nsecs_t timestampOffset, int setId = CAMERA3_STREAM_SET_ID_INVALID);
@@ -90,7 +90,7 @@ class Camera3OutputStream :
      * A valid stream set id needs to be set to support buffer sharing between multiple
      * streams.
      */
-    Camera3OutputStream(int id, sp<Surface> consumer,
+    Camera3OutputStream(int id, const String16& clientPackageName, sp<Surface> consumer,
             uint32_t width, uint32_t height, size_t maxSize, int format,
             android_dataspace dataSpace, camera3_stream_rotation_t rotation,
             nsecs_t timestampOffset, int setId = CAMERA3_STREAM_SET_ID_INVALID);
@@ -100,10 +100,10 @@ class Camera3OutputStream :
      * RAW and YUV. The consumer must be set before using this stream for output. A valid
      * stream set id needs to be set to support buffer sharing between multiple streams.
      */
-    Camera3OutputStream(int id, uint32_t width, uint32_t height, int format,
-            uint64_t consumerUsage, android_dataspace dataSpace,
-            camera3_stream_rotation_t rotation, nsecs_t timestampOffset,
-            int setId = CAMERA3_STREAM_SET_ID_INVALID);
+    Camera3OutputStream(int id, const String16& clientPackageName, uint32_t width,
+            uint32_t height, int format, uint64_t consumerUsage,
+            android_dataspace dataSpace, camera3_stream_rotation_t rotation,
+            nsecs_t timestampOffset, int setId = CAMERA3_STREAM_SET_ID_INVALID);
 
     virtual ~Camera3OutputStream();
 
@@ -173,8 +173,8 @@ class Camera3OutputStream :
     status_t setBufferManager(sp<Camera3BufferManager> bufferManager);
 
   protected:
-    Camera3OutputStream(int id, camera3_stream_type_t type,
-            uint32_t width, uint32_t height, int format,
+    Camera3OutputStream(int id, const String16& clientPackageName,
+            camera3_stream_type_t type, uint32_t width, uint32_t height, int format,
             android_dataspace dataSpace, camera3_stream_rotation_t rotation,
             uint64_t consumerUsage = 0, nsecs_t timestampOffset = 0,
             int setId = CAMERA3_STREAM_SET_ID_INVALID);
@@ -194,6 +194,9 @@ class Camera3OutputStream :
     status_t getEndpointUsageForSurface(uint64_t *usage,
             const sp<Surface>& surface) const;
     status_t configureConsumerQueueLocked();
+
+    // The client package that owns this camera stream.
+    const String16& mClientPackageName;
 
     // Consumer as the output of camera HAL
     sp<Surface> mConsumer;

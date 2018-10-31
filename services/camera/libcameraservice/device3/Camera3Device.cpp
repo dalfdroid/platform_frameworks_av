@@ -1307,29 +1307,29 @@ status_t Camera3Device::createStream(const std::vector<sp<Surface>>& consumers,
                 return BAD_VALUE;
             }
         }
-        newStream = new Camera3OutputStream(mNextStreamId, consumers[0],
-                width, height, blobBufferSize, format, dataSpace, rotation,
-                mTimestampOffset, streamSetId);
+        newStream = new Camera3OutputStream(mNextStreamId, mClientPackageName,
+                consumers[0], width, height, blobBufferSize, format, dataSpace,
+                rotation, mTimestampOffset, streamSetId);
     } else if (format == HAL_PIXEL_FORMAT_RAW_OPAQUE) {
         ssize_t rawOpaqueBufferSize = getRawOpaqueBufferSize(width, height);
         if (rawOpaqueBufferSize <= 0) {
             SET_ERR_L("Invalid RAW opaque buffer size %zd", rawOpaqueBufferSize);
             return BAD_VALUE;
         }
-        newStream = new Camera3OutputStream(mNextStreamId, consumers[0],
-                width, height, rawOpaqueBufferSize, format, dataSpace, rotation,
-                mTimestampOffset, streamSetId);
+        newStream = new Camera3OutputStream(mNextStreamId, mClientPackageName,
+                consumers[0], width, height, rawOpaqueBufferSize, format, dataSpace,
+                rotation, mTimestampOffset, streamSetId);
     } else if (isShared) {
-        newStream = new Camera3SharedOutputStream(mNextStreamId, consumers,
-                width, height, format, consumerUsage, dataSpace, rotation,
-                mTimestampOffset, streamSetId);
+        newStream = new Camera3SharedOutputStream(mNextStreamId, mClientPackageName,
+                consumers, width, height, format, consumerUsage, dataSpace,
+                rotation, mTimestampOffset, streamSetId);
     } else if (consumers.size() == 0 && hasDeferredConsumer) {
-        newStream = new Camera3OutputStream(mNextStreamId,
+        newStream = new Camera3OutputStream(mNextStreamId, mClientPackageName,
                 width, height, format, consumerUsage, dataSpace, rotation,
                 mTimestampOffset, streamSetId);
     } else {
-        newStream = new Camera3OutputStream(mNextStreamId, consumers[0],
-                width, height, format, dataSpace, rotation,
+        newStream = new Camera3OutputStream(mNextStreamId, mClientPackageName,
+                consumers[0], width, height, format, dataSpace, rotation,
                 mTimestampOffset, streamSetId);
     }
     newStream->setStatusTracker(mStatusTracker);

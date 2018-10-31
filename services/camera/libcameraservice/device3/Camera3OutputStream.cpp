@@ -32,12 +32,14 @@ namespace android {
 namespace camera3 {
 
 Camera3OutputStream::Camera3OutputStream(int id,
+        const String16& clientPackageName,
         sp<Surface> consumer,
         uint32_t width, uint32_t height, int format,
         android_dataspace dataSpace, camera3_stream_rotation_t rotation,
         nsecs_t timestampOffset, int setId) :
         Camera3IOStreamBase(id, CAMERA3_STREAM_OUTPUT, width, height,
                             /*maxSize*/0, format, dataSpace, rotation, setId),
+        mClientPackageName(clientPackageName),
         mConsumer(consumer),
         mTransform(0),
         mTraceFirstBuffer(true),
@@ -57,12 +59,14 @@ Camera3OutputStream::Camera3OutputStream(int id,
 }
 
 Camera3OutputStream::Camera3OutputStream(int id,
+        const String16& clientPackageName,
         sp<Surface> consumer,
         uint32_t width, uint32_t height, size_t maxSize, int format,
         android_dataspace dataSpace, camera3_stream_rotation_t rotation,
         nsecs_t timestampOffset, int setId) :
         Camera3IOStreamBase(id, CAMERA3_STREAM_OUTPUT, width, height, maxSize,
                             format, dataSpace, rotation, setId),
+        mClientPackageName(clientPackageName),
         mConsumer(consumer),
         mTransform(0),
         mTraceFirstBuffer(true),
@@ -89,11 +93,13 @@ Camera3OutputStream::Camera3OutputStream(int id,
 }
 
 Camera3OutputStream::Camera3OutputStream(int id,
+        const String16& clientPackageName,
         uint32_t width, uint32_t height, int format,
         uint64_t consumerUsage, android_dataspace dataSpace,
         camera3_stream_rotation_t rotation, nsecs_t timestampOffset, int setId) :
         Camera3IOStreamBase(id, CAMERA3_STREAM_OUTPUT, width, height,
                             /*maxSize*/0, format, dataSpace, rotation, setId),
+        mClientPackageName(clientPackageName),
         mConsumer(nullptr),
         mTransform(0),
         mTraceFirstBuffer(true),
@@ -123,7 +129,8 @@ Camera3OutputStream::Camera3OutputStream(int id,
 
 }
 
-Camera3OutputStream::Camera3OutputStream(int id, camera3_stream_type_t type,
+Camera3OutputStream::Camera3OutputStream(int id, const String16& clientPackageName,
+                                         camera3_stream_type_t type,
                                          uint32_t width, uint32_t height,
                                          int format,
                                          android_dataspace dataSpace,
@@ -133,6 +140,7 @@ Camera3OutputStream::Camera3OutputStream(int id, camera3_stream_type_t type,
         Camera3IOStreamBase(id, type, width, height,
                             /*maxSize*/0,
                             format, dataSpace, rotation, setId),
+        mClientPackageName(clientPackageName),
         mTransform(0),
         mTraceFirstBuffer(true),
         mUseMonoTimestamp(false),

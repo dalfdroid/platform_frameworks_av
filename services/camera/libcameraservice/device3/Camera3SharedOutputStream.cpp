@@ -21,12 +21,14 @@ namespace android {
 namespace camera3 {
 
 Camera3SharedOutputStream::Camera3SharedOutputStream(int id,
+        const String16& clientPackageName,
         const std::vector<sp<Surface>>& surfaces,
         uint32_t width, uint32_t height, int format,
         uint64_t consumerUsage, android_dataspace dataSpace,
         camera3_stream_rotation_t rotation,
         nsecs_t timestampOffset, int setId) :
-        Camera3OutputStream(id, CAMERA3_STREAM_OUTPUT, width, height,
+        Camera3OutputStream(id, clientPackageName,
+                            CAMERA3_STREAM_OUTPUT, width, height,
                             format, dataSpace, rotation, consumerUsage,
                             timestampOffset, setId),
         mSurfaces(surfaces) {

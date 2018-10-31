@@ -32,7 +32,8 @@ public:
      * surfaces. A valid stream set id needs to be set to support buffer
      * sharing between multiple streams.
      */
-    Camera3SharedOutputStream(int id, const std::vector<sp<Surface>>& surfaces,
+    Camera3SharedOutputStream(int id, const String16& clientPackageName,
+            const std::vector<sp<Surface>>& surfaces,
             uint32_t width, uint32_t height, int format,
             uint64_t consumerUsage, android_dataspace dataSpace,
             camera3_stream_rotation_t rotation, nsecs_t timestampOffset,

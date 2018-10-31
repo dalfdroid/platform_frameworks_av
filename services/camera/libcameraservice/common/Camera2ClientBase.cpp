@@ -62,7 +62,7 @@ Camera2ClientBase<TClientBase>::Camera2ClientBase(
             String8(clientPackageName).string(), clientPid, clientUid);
 
     mInitialClientPid = clientPid;
-    mDevice = new Camera3Device(cameraId);
+    mDevice = new Camera3Device(cameraId, clientPackageName);
     LOG_ALWAYS_FATAL_IF(mDevice == 0, "Device should never be NULL here.");
 }
 

@@ -61,8 +61,10 @@ using namespace android::hardware::camera::device::V3_2;
 
 namespace android {
 
-Camera3Device::Camera3Device(const String8 &id):
+Camera3Device::Camera3Device(const String8 &id,
+        const String16& clientPackageName):
         mId(id),
+        mClientPackageName(clientPackageName),
         mOperatingMode(NO_MODE),
         mIsConstrainedHighSpeedConfiguration(false),
         mStatus(STATUS_UNINITIALIZED),

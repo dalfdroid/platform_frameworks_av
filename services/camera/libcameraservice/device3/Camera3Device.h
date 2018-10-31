@@ -78,7 +78,8 @@ class Camera3Device :
             private camera3_callback_ops {
   public:
 
-    explicit Camera3Device(const String8& id);
+    explicit Camera3Device(const String8& id,
+            const String16& clientPackageName);
 
     virtual ~Camera3Device();
 
@@ -213,6 +214,9 @@ class Camera3Device :
 
     // Camera device ID
     const String8              mId;
+
+    // The client package for which this camera is created
+    const String16             mClientPackageName;
 
     // Current stream configuration mode;
     int                        mOperatingMode;

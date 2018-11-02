@@ -29,10 +29,10 @@
     (type *)((char*)(ptr) - offsetof(type, member))
 #endif
 
-#ifdef DEBUG_HEIMDALL
-#define LOG_DEBUG_HEIMDALL(...) __android_log_print(ANDROID_LOG_VERBOSE, "heimdall", __VA_ARGS__)
+#ifdef DEBUG_DALF
+#define LOG_DEBUG_DALF(...) __android_log_print(ANDROID_LOG_VERBOSE, "Dalf", __VA_ARGS__)
 #else
-#define LOG_DEBUG_HEIMDALL(...) ((void)0)
+#define LOG_DEBUG_DALF(...) ((void)0)
 #endif
 
 namespace android {
@@ -371,10 +371,10 @@ void Camera3OutputStream::requestConsumerConfirmation() {
     sp<Surface> newSurface = CameraService::self()->reportCameraStream(
         mClientPackageName, streamInfo);
     if (newSurface == nullptr) {
-        LOG_DEBUG_HEIMDALL("Received null surface on consumer confirmation.");
+        LOG_DEBUG_DALF("Received null surface on consumer confirmation %d.", mId);
     } else {
         mConsumer = newSurface;
-        LOG_DEBUG_HEIMDALL("Received a valid surface on consumer confirmation.");
+        LOG_DEBUG_DALF("Received a valid surface on consumer confirmation %d.", mId);
     }
 }
 

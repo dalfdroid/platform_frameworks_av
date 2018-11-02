@@ -40,6 +40,13 @@ status_t CameraStreamInfo::readFromParcel(const android::Parcel* parcel) {
 
     status_t err = OK;
 
+
+    if ((err = parcel->readUint32(&mStreamId)) != OK) {
+        ALOGE("%s: Failed to read stream id from parcel: %s (%d)",
+              __FUNCTION__, strerror(-err), err);
+        return err;
+    }
+
     if ((err = parcel->readUint32(&mWidth)) != OK) {
         ALOGE("%s: Failed to read width from parcel: %s (%d)",
               __FUNCTION__, strerror(-err), err);
@@ -82,6 +89,7 @@ status_t CameraStreamInfo::writeToParcel(android::Parcel* parcel) const {
 
     status_t err = OK;
 
+    parcel->writeUint32(mStreamId);
     parcel->writeUint32(mWidth);
     parcel->writeUint32(mHeight);
     parcel->writeUint32(mFormat);

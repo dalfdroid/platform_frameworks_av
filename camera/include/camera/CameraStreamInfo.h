@@ -39,6 +39,7 @@ struct CameraStreamInfo : public Parcelable {
     CameraStreamInfo(CameraStreamInfo&& rhs) noexcept;
     virtual ~CameraStreamInfo();
 
+    uint32_t                mStreamId;
     uint32_t                mWidth;
     uint32_t                mHeight;
     uint32_t                mFormat;

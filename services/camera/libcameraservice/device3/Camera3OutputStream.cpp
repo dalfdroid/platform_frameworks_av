@@ -364,6 +364,7 @@ status_t Camera3OutputStream::configureQueueLocked() {
 
 void Camera3OutputStream::requestConsumerConfirmation() {
     CameraStreamInfo streamInfo;
+    streamInfo.mStreamId = (uint32_t)mId;
     streamInfo.mWidth = getWidth();
     streamInfo.mHeight = getHeight();
     streamInfo.mFormat = getFormat();

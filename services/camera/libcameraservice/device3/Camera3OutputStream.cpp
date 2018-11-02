@@ -608,6 +608,16 @@ status_t Camera3OutputStream::getBufferLockedCommon(ANativeWindowBuffer** anb, i
     return res;
 }
 
+void Camera3OutputStream::reportSurfaceDisconnection() {
+    CameraStreamInfo streamInfo;
+    streamInfo.mStreamId = (uint32_t)mId;
+    streamInfo.mWidth = getWidth();
+    streamInfo.mHeight = getHeight();
+    streamInfo.mFormat = getFormat();
+    streamInfo.mSurface = mConsumer;
+    CameraService::self()->reportSurfaceDisconnection(mClientPackageName, streamInfo);
+}
+
 status_t Camera3OutputStream::disconnectLocked() {
     status_t res;
 
@@ -622,6 +632,8 @@ status_t Camera3OutputStream::disconnectLocked() {
     }
 
     ALOGV("%s: disconnecting stream %d from native window", __FUNCTION__, getId());
+
+    reportSurfaceDisconnection();
 
     res = native_window_api_disconnect(mConsumer.get(),
                                        NATIVE_WINDOW_API_CAMERA);

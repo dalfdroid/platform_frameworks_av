@@ -101,6 +101,10 @@ public:
     virtual sp<Surface> reportCameraStream(const String16& clientPackage,
             const CameraStreamInfo& cameraStreamInfo);
 
+    // Report that a camera stream is about to disconnect from the surface.
+    virtual void reportSurfaceDisconnection(const String16& clientPackage,
+            const CameraStreamInfo& cameraStreamInfo);
+
     /////////////////////////////////////////////////////////////////////
     // HAL Callbacks - implements CameraProviderManager::StatusListener
 

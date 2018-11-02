@@ -61,4 +61,12 @@ interface ICameraServiceProxy
      * @return A new rendering surface target, if one exists, or null otherwise.
      */
     Surface reportCameraStream(String packageName, in CameraStreamInfo cameraStreamInfo);
+
+    /**
+     * Report that a camera stream is about to disconnect from its rendering
+     * surface.
+     * @param packageName The client package that created the camera stream.
+     * @param CameraStreamInfo Information about the camera stream.
+     */
+    void reportSurfaceDisconnection(String packageName, in CameraStreamInfo cameraStreamInfo);
 }

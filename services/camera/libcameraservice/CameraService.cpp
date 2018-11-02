@@ -201,6 +201,14 @@ sp<Surface> CameraService::reportCameraStream(const String16& clientPackage,
     }
 }
 
+void CameraService::reportSurfaceDisconnection(const String16& clientPackage,
+        const CameraStreamInfo& cameraStreamInfo)
+{
+    sp<ICameraServiceProxy> proxyBinder = getCameraServiceProxy();
+    if (proxyBinder == nullptr) return;
+    proxyBinder->reportSurfaceDisconnection(clientPackage, cameraStreamInfo);
+}
+
 void CameraService::onFirstRef()
 {
     ALOGI("CameraService process starting");
